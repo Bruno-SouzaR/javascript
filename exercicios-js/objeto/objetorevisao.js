@@ -14,6 +14,7 @@ const carro = {
     valor: 89000,
     proprietario: {
         nome: 'Raul',
+        idade: 56,
         endereco: {
             logradouro: 'Rua ABC',
             numero: 123
