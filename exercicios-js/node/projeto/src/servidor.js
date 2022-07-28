@@ -2,9 +2,39 @@ const porta = 3003
 
 const express = require('express')
 const app = express()
+const bodyparser = require('body-parser')
+const bancodedados = require('./bancodedados')
+
+app.use(bodyparser.urlencoded({ extended: true }))
 
 app.get('/produtos', ( req, res, next) => {
-    res.send({nome:'Notebook', preco: 5123.45}) // converte para JSON
+    res.send(bancodedados.getprodutos())
+})
+
+app.get('/produtos/:id', (req, res, next) => {
+    res.send(bancodedados.getproduto(req.params.id))
+})
+
+app.post('/produtos', (req, res, next) => {
+    const produto = bancodedados.salvarproduto({
+        nome: req.body.nome,
+        preco: req.body.preco
+    })
+    res.send(produto) // JSON
+})
+
+app.put('/produtos/:id', (req, res, next) => {
+    const produto = bancodedados.salvarproduto({
+        id: req.params.id,
+        nome: req.body.nome,
+        preco: req.body.preco
+    })
+    res.send(produto) // JSON
+})
+
+app.delete('/produtos/:id', (req, res, next) => {
+    const produto = bancodedados.excluirproduto(req. params.id)
+    res.send(produto) // JSON
 })
 
 app.listen(porta, () => {
